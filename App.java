@@ -1,24 +1,87 @@
-import java.util.Hashtable;
+import java.util.Scanner;
+import java.awt.Desktop;
+import java.io.File;
 
 public class App {
-	
+
+	private static final String filepath = "files\\";
+	private static HuffmanEncoding he;
+	private static HuffmanEncoding.Operation op;
+	private static String file;
+	private static boolean use;
+	/**
+	 * Menu class
+	 *
+	 * @author Eduardo Andrade
+	 * @author Marcelo Heredia
+	 * @author Michael Rosa
+	 * @author Pedro Castro
+	 */
 	public static void main(String[] args) {
-		
-		//FreqTable table = new FreqTable(3);
-		
-		Hashtable<Character,Double> table = new Hashtable<Character,Double>();
-		
-		table.put('a', 45.0);
-		table.put('b', 13.0);
-		table.put('c', 12.0);
-		table.put('d', 16.0);
-		table.put('e', 9.0);
-		table.put('f', 5.0);
-		
-		HuffmanEncoding hf = new HuffmanEncoding(table);
-		
-		hf.printEncoding();
-		
+		Scanner in = new Scanner(System.in);
+		int control = 0;
+		do {
+			try {
+				System.out.println("Digite a operação desejada");
+				System.out.println("1 - Codificar texto");
+				System.out.println("2 - Decodificar texto");
+				System.out.println("0 - Sair");
+
+				control = in.nextInt();
+
+				switch (control) {
+					case 1:
+						op = HuffmanEncoding.Operation.Encode;
+						System.out.println("Digite o nome do arquivo a ser codificado");
+						System.out.println("(Lembrando que o arquivo deve estar na pasta files)");
+						file = in.next();
+						if (!file.contains(".txt")) {
+							file += ".txt";
+						}
+						executeAux();
+						break;
+					case 2:
+						op = HuffmanEncoding.Operation.Decode;
+						System.out.println("Digite o nome do arquivo a ser decodificado");
+						System.out.println("(Lembrando que o arquivo deve estar na pasta files)");
+						file = in.next();
+						if (!file.contains(".txt")) {
+							file += ".txt";
+						}
+						executeAux();
+						break;
+					default:
+						continue;
+				}
+			}
+			catch (Exception ex) {
+				System.out.println("Erro inesperado, recomeçando.");
+				control = 3;
+				continue;
+			}
+		} while (control != 0);
+		in.close();
 	}
-	
+
+	private static void executeAux(){
+		he = new HuffmanEncoding(file, op);
+		use = he.Start();
+		if (!use) {
+			System.out.println("Arquivo não encontrado.");
+			return;
+		}
+		System.out.println("Concluido.");
+		if (Desktop.isDesktopSupported()) {
+			try {
+				File textFile = new File(filepath + "out" + file);
+				Desktop desktop = Desktop.getDesktop();
+				if (textFile.exists()) {
+					desktop.open(textFile);
+				}
+			}
+			catch (Exception ex) {
+				return;
+			}
+		}
+	}
 }
