@@ -52,8 +52,8 @@ public class FileOperations {
 		StringBuilder sb = new StringBuilder();
 		for (int i=0; i<textlen; i++){
 			try{
-				boolean bit = bib.readBoolean();
-				sb.append(bib.readBoolean());
+				char bit = bib.readBoolean() == true ? '1' : '0';
+				sb.append(bit);
 			}
 			catch(ReadOverException e){
 				break;

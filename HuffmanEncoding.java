@@ -18,7 +18,8 @@ public class HuffmanEncoding {
 	private String fullPath;
 	private String filename;
 	private String output;
-	private String keyFullPath;
+	private String okeyFullPath;
+	private String ikeyFullPath;
 	private Operation op;
 	private int codeSize;
 
@@ -33,7 +34,8 @@ public class HuffmanEncoding {
 		this.fullPath = path + filename;
 		this.op = op;
 		this.output = output;
-		this.keyFullPath = path + output.replaceAll("\\..*$","") + ".dic";
+		this.okeyFullPath = path + output.replaceAll("\\..*$","") + ".dic";
+		this.ikeyFullPath = path + filename.replaceAll("\\..*$","") + ".dic";
 	}
 
 	public enum Operation{
@@ -60,13 +62,13 @@ public class HuffmanEncoding {
 					String encodedText = Codify(fileText, code);
 					// replace text
 					boolean isOk = FileOperations.WriteStringToBin(path+output, encodedText);
-					boolean isOk2 = SaveKeys(code, keyFullPath, encodedText.length());
+					boolean isOk2 = SaveKeys(code, okeyFullPath, encodedText.length());
 
 					return isOk && isOk2;
 				}
 				case Decode:{
 					// read keys file
-					HashMap<String, Character> valueKeyMap = ReadKeys(keyFullPath);
+					HashMap<String, Character> valueKeyMap = ReadKeys(ikeyFullPath);
 					// read encoded file
 					String encodedText = FileOperations.ReadFileToString(fullPath,codeSize);
 					// start comparations
