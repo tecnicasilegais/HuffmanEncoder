@@ -1,2 +1,0 @@
-# HuffmanEncoder
-Disciplina Integradora I
