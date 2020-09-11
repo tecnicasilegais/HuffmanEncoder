@@ -16,8 +16,8 @@ import java.util.List;
 public class HuffmanEncoding {
 	private final String path = "files\\";
 	private String fullPath;
-	private String fullOutputPath;
 	private String filename;
+	private String output;
 	private String keyFullPath;
 	private Operation op;
 
@@ -27,11 +27,11 @@ public class HuffmanEncoding {
 	 * @param filename name of file to encode
 	 * @param op indicates if its going to Decode or Encode a text
 	 */
-	public HuffmanEncoding(String filename, Operation op) {
+	public HuffmanEncoding(String filename, String output, Operation op) {
 		this.fullPath = path + filename;
-		this.fullOutputPath = path + "out" + filename;
 		this.filename = filename;
 		this.op = op;
+		this.output = output;
 		// if its a decode operation, set the name of the output keys file.
 		if(op == Operation.Decode){
 			this.keyFullPath = path + "key" + filename;
@@ -61,8 +61,8 @@ public class HuffmanEncoding {
 					// convert to string
 					String encodedText = Codify(fileText, code);
 					// replace text
-					boolean isOk = FileOperations.WriteStringToFile(Paths.get(fullOutputPath), encodedText);
-					boolean isOk2 = SaveKeys(code, path, filename);
+					boolean isOk = FileOperations.WriteStringToFile(Paths.get(path+output), encodedText);
+					boolean isOk2 = SaveKeys(code, path, output);
 
 					return isOk && isOk2;
 				}
@@ -72,7 +72,7 @@ public class HuffmanEncoding {
 					// read keys file
 					HashMap<String, Character> valueKeyMap = ReadKeys(keyFullPath);
 					// start comparations
-					FileOperations.WriteStringToFile(Paths.get(fullOutputPath), Decode(valueKeyMap, encodedText));
+					FileOperations.WriteStringToFile(Paths.get(path+output), Decode(valueKeyMap, encodedText));
 
 					return true;
 				}

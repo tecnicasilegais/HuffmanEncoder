@@ -8,6 +8,7 @@ public class App {
 	private static HuffmanEncoding he;
 	private static HuffmanEncoding.Operation op;
 	private static String file;
+	private static String output;
 	private static boolean use;
 	/**
 	 * Menu class
@@ -38,6 +39,11 @@ public class App {
 						if (!file.contains(".txt")) {
 							file += ".txt";
 						}
+						System.out.println("Digite o nome do arquivo de saida");
+						output = in.next();
+						if (!output.contains(".txt")) {
+							output += ".txt";
+						}
 						executeAux();
 						break;
 					case 2:
@@ -47,6 +53,11 @@ public class App {
 						file = in.next();
 						if (!file.contains(".txt")) {
 							file += ".txt";
+						}
+						System.out.println("Digite o nome do arquivo de saida");
+						output = in.next();
+						if (!output.contains(".txt")) {
+							output += ".txt";
 						}
 						executeAux();
 						break;
@@ -64,7 +75,7 @@ public class App {
 	}
 
 	private static void executeAux(){
-		he = new HuffmanEncoding(file, op);
+		he = new HuffmanEncoding(file, output, op);
 		use = he.Start();
 		if (!use) {
 			System.out.println("Arquivo não encontrado.");
@@ -73,7 +84,7 @@ public class App {
 		System.out.println("Concluido.");
 		if (Desktop.isDesktopSupported()) {
 			try {
-				File textFile = new File(filepath + "out" + file);
+				File textFile = new File(filepath + output);
 				Desktop desktop = Desktop.getDesktop();
 				if (textFile.exists()) {
 					desktop.open(textFile);
