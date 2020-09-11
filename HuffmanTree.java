@@ -4,14 +4,14 @@ import java.util.PriorityQueue;
 
 
 public class HuffmanTree {
-	Node treeRoot;
+	final Node treeRoot;
 
 	public HuffmanTree(HashMap<Character, Integer> map) {
 		treeRoot = this.MapToNodeTree(map);
 	}
 
 	public HashMap<Character, String> NodeTreeToCodeMap() {
-		HashMap<Character, String> codeMap = new HashMap<Character, String>();
+		HashMap<Character, String> codeMap = new HashMap<>();
 		GetCode(treeRoot, codeMap, "");
 		return codeMap;
 	}
@@ -30,7 +30,7 @@ public class HuffmanTree {
 	}
 
 	private Node MapToNodeTree(HashMap<Character, Integer> hashMap) {
-		PriorityQueue<Node> tempQueue = new PriorityQueue<Node>();
+		PriorityQueue<Node> tempQueue = new PriorityQueue<>();
 		for (Entry<Character, Integer> entry : hashMap.entrySet()) {
 			tempQueue.add(new Node(entry.getKey(), entry.getValue()));
 		}
@@ -48,10 +48,10 @@ public class HuffmanTree {
 	/**
 	 * Node class to use inside the Tree
 	 */
-	private class Node implements Comparable<Node>
+	private static class Node implements Comparable<Node>
 	{
-		private Character character;
-		private Integer frequency;
+		private final Character character;
+		private final Integer frequency;
 		private Node left;
 		private Node right;
 
@@ -121,14 +121,5 @@ public class HuffmanTree {
 			return right;
 		}
 
-		public Integer getFrequency()
-		{
-			return frequency;
-		}
-
-		public void setFrequency(Integer freq)
-		{
-			frequency = freq;
-		}
 	}
 }
