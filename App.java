@@ -36,14 +36,8 @@ public class App {
 						System.out.println("Digite o nome do arquivo a ser codificado");
 						System.out.println("(Lembrando que o arquivo deve estar na pasta files)");
 						file = in.next();
-						if (!file.contains(".txt")) {
-							file += ".txt";
-						}
 						System.out.println("Digite o nome do arquivo de saida");
 						output = in.next();
-						if (!output.contains(".txt")) {
-							output += ".txt";
-						}
 						executeAux();
 						break;
 					case 2:
@@ -51,14 +45,8 @@ public class App {
 						System.out.println("Digite o nome do arquivo a ser decodificado");
 						System.out.println("(Lembrando que o arquivo deve estar na pasta files)");
 						file = in.next();
-						if (!file.contains(".txt")) {
-							file += ".txt";
-						}
 						System.out.println("Digite o nome do arquivo de saida");
 						output = in.next();
-						if (!output.contains(".txt")) {
-							output += ".txt";
-						}
 						executeAux();
 						break;
 					default:

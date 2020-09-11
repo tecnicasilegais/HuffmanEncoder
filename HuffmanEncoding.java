@@ -20,6 +20,7 @@ public class HuffmanEncoding {
 	private String output;
 	private String keyFullPath;
 	private Operation op;
+	private int codeSize;
 
 	/**
 	 * Constructor method
@@ -28,14 +29,11 @@ public class HuffmanEncoding {
 	 * @param op indicates if its going to Decode or Encode a text
 	 */
 	public HuffmanEncoding(String filename, String output, Operation op) {
-		this.fullPath = path + filename;
 		this.filename = filename;
+		this.fullPath = path + filename;
 		this.op = op;
 		this.output = output;
-		// if its a decode operation, set the name of the output keys file.
-		if(op == Operation.Decode){
-			this.keyFullPath = path + "key" + filename;
-		}
+		this.keyFullPath = path + output.replaceAll("\\..*$","") + ".dic";
 	}
 
 	public enum Operation{
@@ -61,16 +59,16 @@ public class HuffmanEncoding {
 					// convert to string
 					String encodedText = Codify(fileText, code);
 					// replace text
-					boolean isOk = FileOperations.WriteStringToFile(Paths.get(path+output), encodedText);
-					boolean isOk2 = SaveKeys(code, path, output);
+					boolean isOk = FileOperations.WriteStringToBin(path+output, encodedText);
+					boolean isOk2 = SaveKeys(code, keyFullPath, encodedText.length());
 
 					return isOk && isOk2;
 				}
 				case Decode:{
-					// read encoded file
-					String encodedText = FileOperations.ReadFileToString(Paths.get(fullPath));
 					// read keys file
 					HashMap<String, Character> valueKeyMap = ReadKeys(keyFullPath);
+					// read encoded file
+					String encodedText = FileOperations.ReadFileToString(fullPath,codeSize);
 					// start comparations
 					FileOperations.WriteStringToFile(Paths.get(path+output), Decode(valueKeyMap, encodedText));
 
@@ -132,10 +130,11 @@ public class HuffmanEncoding {
 		return fileContent;
 	}
 
-	private static boolean SaveKeys(HashMap<Character, String> keys, String path, String filename) {
+	private static boolean SaveKeys(HashMap<Character, String> keys, String keypath, int codeLength) {
 		try {
 			StringBuilder sb = new StringBuilder();
 			String key;
+			sb.append(codeLength).append("\n");
 			for (Entry<Character, String> entry : keys.entrySet()) {
 				if (String.valueOf(entry.getKey()).matches("\r")) {
 					key = "CR";
@@ -149,11 +148,9 @@ public class HuffmanEncoding {
 				else {
 					key = entry.getKey().toString();
 				}
-				sb.append(entry.getValue() + " " + key + "\n");
+				sb.append(entry.getValue()).append(" ").append(key).append("\n");
 			}
-			String newFileName = path + "key" + filename;
-			boolean result = FileOperations.WriteStringToFile(Paths.get(newFileName), sb.toString());
-			return result;
+			return FileOperations.WriteStringToFile(Paths.get(keypath), sb.toString());
 		}
 		catch (Exception ex) {
 			return false;
@@ -195,6 +192,8 @@ public class HuffmanEncoding {
 
 			HashMap<String, Character> map = new HashMap<String, Character>();
 			List<String> texts = Files.readAllLines(Paths.get(path), StandardCharsets.US_ASCII);
+
+			codeSize = Integer.parseInt(texts.remove(0));
 
 			for (String text : texts) {
 				String[] line = text.split(" ");
