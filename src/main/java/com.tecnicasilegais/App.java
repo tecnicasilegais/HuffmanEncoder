@@ -1,3 +1,5 @@
+package com.tecnicasilegais;
+
 import java.util.Scanner;
 
 public class App {
