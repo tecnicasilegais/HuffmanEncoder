@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
 
-
 public class HuffmanTree {
     final Node treeRoot;
 
