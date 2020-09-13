@@ -1,4 +1,4 @@
-package com.tecnicasilegais;
+package com.tecnicasilegais.huffman;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

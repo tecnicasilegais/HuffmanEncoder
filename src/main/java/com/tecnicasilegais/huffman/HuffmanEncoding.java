@@ -1,4 +1,4 @@
-package com.tecnicasilegais;
+package com.tecnicasilegais.huffman;
 
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -16,26 +16,21 @@ import java.util.List;
  * @author Pedro Castro
  */
 public class HuffmanEncoding {
-    private final String path = "files\\";
-    private final String fullPath;
-    private final String output;
-    private final String okeyFullPath;
-    private final String ikeyFullPath;
+    private final String fileIn;
+    private final String fileOut;
     private final Operation op;
     private int codeSize;
 
     /**
      * Constructor method
-     *
-     * @param filename name of file to encode
-     * @param op       indicates if its going to Decode or Encode a text
+     * @param fileIn    text to encode/decode
+     * @param fileOut   encoded/decoded text
+     * @param op        indicates if its going to Encode or Decode a text
      */
-    public HuffmanEncoding(String filename, String output, Operation op) {
-        this.fullPath = path + filename;
+    public HuffmanEncoding(String fileIn, String fileOut, Operation op) {
+        this.fileIn = fileIn;
+        this.fileOut = fileOut;
         this.op = op;
-        this.output = output;
-        this.okeyFullPath = path + output.replaceAll("\\..*$", "") + ".dic";
-        this.ikeyFullPath = path + filename.replaceAll("\\..*$", "") + ".dic";
     }
 
     /**
@@ -120,7 +115,7 @@ public class HuffmanEncoding {
             switch (op) {
                 case Encode: {
                     // file reading
-                    String fileText = PrintFrequencyMap(fullPath);
+                    String fileText = PrintFrequencyMap(fileIn);
                     // frequency count
                     HashMap<Character, Integer> map = StringToFrequencyMap(fileText);
                     // creating tree
@@ -130,18 +125,18 @@ public class HuffmanEncoding {
                     // convert to string
                     String encodedText = Codify(fileText, code);
                     // replace text
-                    boolean isOk = FileOperations.WriteStringToBin(path + output, encodedText);
-                    boolean isOk2 = SaveKeys(code, okeyFullPath, encodedText.length());
+                    boolean isOk = FileOperations.WriteStringToBin(fileOut, encodedText);
+                    boolean isOk2 = SaveKeys(code, fileOut.replaceAll("\\..*$", "") + ".dic", encodedText.length());
 
                     return isOk && isOk2;
                 }
                 case Decode: {
                     // read keys file
-                    HashMap<String, Character> valueKeyMap = ReadKeys(ikeyFullPath);
+                    HashMap<String, Character> valueKeyMap = ReadKeys(fileIn.replaceAll("\\..*$", "") + ".dic");
                     // read encoded file
-                    String encodedText = FileOperations.ReadFileToString(fullPath, codeSize);
+                    String encodedText = FileOperations.ReadFileToString(fileIn, codeSize);
                     // start comparations
-                    FileOperations.WriteStringToFile(Paths.get(path + output), Decode(valueKeyMap, encodedText));
+                    FileOperations.WriteStringToFile(Paths.get(fileOut), Decode(valueKeyMap, encodedText));
 
                     return true;
                 }

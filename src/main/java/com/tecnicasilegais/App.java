@@ -1,11 +1,14 @@
 package com.tecnicasilegais;
 
+import com.tecnicasilegais.huffman.HuffmanEncoding;
+
 import java.util.Scanner;
 
 public class App {
 
+    private static final String path = "files\\";
     private static HuffmanEncoding.Operation op;
-    private static String file;
+    private static String input;
     private static String output;
 
     /**
@@ -33,7 +36,7 @@ public class App {
                         op = HuffmanEncoding.Operation.Encode;
                         System.out.println("Digite o nome do arquivo a ser codificado");
                         System.out.println("(Lembrando que o arquivo deve estar na pasta files)");
-                        file = in.next();
+                        input = in.next();
                         System.out.println("Digite o nome do arquivo de saida");
                         output = in.next();
                         executeAux();
@@ -42,7 +45,7 @@ public class App {
                         op = HuffmanEncoding.Operation.Decode;
                         System.out.println("Digite o nome do arquivo a ser decodificado");
                         System.out.println("(Lembrando que o arquivo deve estar na pasta files)");
-                        file = in.next();
+                        input = in.next();
                         System.out.println("Digite o nome do arquivo de saida");
                         output = in.next();
                         executeAux();
@@ -58,7 +61,7 @@ public class App {
     }
 
     private static void executeAux() {
-        HuffmanEncoding he = new HuffmanEncoding(file, output, op);
+        HuffmanEncoding he = new HuffmanEncoding(path + input, path + output, op);
         boolean use = he.Start();
         if (!use) {
             System.out.println("Arquivo não encontrado.");
