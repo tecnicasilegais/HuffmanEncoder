@@ -23,9 +23,10 @@ public class HuffmanEncoding {
 
     /**
      * Constructor method
-     * @param fileIn    text to encode/decode
-     * @param fileOut   encoded/decoded text
-     * @param op        indicates if its going to Encode or Decode a text
+     *
+     * @param fileIn  text to encode/decode
+     * @param fileOut encoded/decoded text
+     * @param op      indicates if its going to Encode or Decode a text
      */
     public HuffmanEncoding(String fileIn, String fileOut, Operation op) {
         this.fileIn = fileIn;
@@ -56,7 +57,7 @@ public class HuffmanEncoding {
      * @return a HashMap using the characters from input as keys and their
      * respective frequencies as values
      */
-    private static HashMap<Character, Integer> StringToFrequencyMap(String input) {
+    public static HashMap<Character, Integer> StringToFrequencyMap(String input) {
         HashMap<Character, Integer> frequencyMap = new HashMap<>();
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
@@ -66,19 +67,6 @@ public class HuffmanEncoding {
             frequencyMap.put(c, frequency + 1);
         }
         return frequencyMap;
-    }
-
-    /**
-     * put all the file's text into a string
-     *
-     * @param path file
-     * @return returns the string with the text
-     * @throws Exception if anything goes wrong
-     */
-    private static String PrintFrequencyMap(String path) throws Exception {
-        String fileContent;
-        fileContent = FileOperations.ReadFileToString(Paths.get(path));
-        return fileContent;
     }
 
     private static boolean SaveKeys(HashMap<Character, String> keys, String keypath, int codeLength) {
@@ -115,7 +103,7 @@ public class HuffmanEncoding {
             switch (op) {
                 case Encode: {
                     // file reading
-                    String fileText = PrintFrequencyMap(fileIn);
+                    String fileText = FileOperations.ReadFileToString(Paths.get(fileIn));
                     // frequency count
                     HashMap<Character, Integer> map = StringToFrequencyMap(fileText);
                     // creating tree

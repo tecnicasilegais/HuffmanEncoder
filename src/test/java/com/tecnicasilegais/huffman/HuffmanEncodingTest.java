@@ -1,31 +1,20 @@
 package com.tecnicasilegais.huffman;
 
-import manifold.ext.rt.api.Jailbreak;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashMap;
 
 class HuffmanEncodingTest {
-    @Jailbreak HuffmanEncoding he = null;
-
-    @BeforeEach
-    void setUp(@TempDir Path tempDir) throws IOException {
-        Path input = tempDir.resolve("in.txt");
-        Files.writeString(input, "AAAABBBCCCCCC \r\n");
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void start() {
-
+        HashMap<Character, Integer> map = HuffmanEncoding.StringToFrequencyMap("AAAABBBCCCCCC \r\n");
+        assertEquals(4, (int) map.get('A'), "Contagem de 'A's errada.");
+        assertEquals(3, (int) map.get('B'), "Contagem de 'B's errada.");
+        assertEquals(6, (int) map.get('C'), "Contagem de 'C's errada.");
+        assertEquals(1, (int) map.get(' '), "Contagem de espaços errada.");
+        assertEquals(1, (int) map.get('\r'), "Contagem de carriage return errada.");
+        assertEquals(1, (int) map.get('\n'), "Contagem de newline errada.");
     }
 }
